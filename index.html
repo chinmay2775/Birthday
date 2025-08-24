@@ -12,16 +12,15 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Vibrant page background -->
+  <!-- Festive background -->
   <div class="page-bg">
-    <div class="gradient-glow"></div>
-    <div class="bokeh b1"></div>
-    <div class="bokeh b2"></div>
-    <div class="bokeh b3"></div>
-    <div class="pattern-overlay"></div>
+    <div class="bg-blob blob1"></div>
+    <div class="bg-blob blob2"></div>
+    <div class="bg-blob blob3"></div>
+    <div class="confetti-layer"></div>
   </div>
 
-  <!-- Centered invitation card -->
+  <!-- Card container -->
   <div class="card-shell">
     <div class="ribbon"><span>With love and gratitude</span></div>
 
@@ -46,7 +45,7 @@
               <a class="link" href="https://maps.app.goo.gl/XZxMi5rCx652WABc6" target="_blank" rel="noopener">
                 Utsav Pure Veg Restaurant &amp; Banquet Hall
               </a>
-            </strong><br>
+            </strong><br />
             <span class="muted">Shirpur</span>
           </p>
         </div>
@@ -54,6 +53,7 @@
     </header>
 
     <main>
+      <!-- Invitation -->
       <section class="intro">
         <h2 class="gold-underline">Invitation</h2>
         <p>
@@ -65,6 +65,7 @@
         </p>
       </section>
 
+      <!-- Event Details -->
       <section class="details">
         <h2 class="gold-underline">Event Details</h2>
         <div class="info-grid">
@@ -75,6 +76,7 @@
               <div class="value">Sunday, 31 AUGUST 2025</div>
             </div>
           </div>
+
           <div class="detail card">
             <div class="icon">⏰</div>
             <div>
@@ -82,6 +84,7 @@
               <div class="value">10:00 PM</div>
             </div>
           </div>
+
           <div class="detail card">
             <div class="icon">📍</div>
             <div>
@@ -94,6 +97,7 @@
               <div class="muted">Shirpur</div>
             </div>
           </div>
+
           <div class="detail card">
             <div class="icon">👗</div>
             <div>
@@ -104,6 +108,7 @@
         </div>
       </section>
 
+      <!-- A Life Well Lived -->
       <section class="about">
         <h2 class="gold-underline">A Life Well Lived</h2>
         <p>
@@ -113,20 +118,23 @@
         </p>
       </section>
 
-      <!-- Memories gallery (optional) -->
+      <!-- Memories -->
       <section class="memories">
         <h2 class="gold-underline">Memories</h2>
         <p class="small muted">A few snapshots from the beautiful journey.</p>
+
         <div class="gallery-grid">
-          <a href="assets/memories/1.jpg" class="g-item"><img src="assets/memories/1.jpg" alt="Memory 1"></a>
-          <a href="assets/memories/2.jpg" class="g-item"><img src="assets/memories/2.jpg" alt="Memory 2"></a>
-          <a href="assets/memories/3.jpg" class="g-item"><img src="assets/memories/3.jpg" alt="Memory 3"></a>
-          <a href="assets/memories/4.jpg" class="g-item"><img src="assets/memories/4.jpg" alt="Memory 4"></a>
-          <a href="assets/memories/5.jpg" class="g-item"><img src="assets/memories/5.jpg" alt="Memory 5"></a>
-          <a href="assets/memories/6.jpg" class="g-item"><img src="assets/memories/6.jpg" alt="Memory 6"></a>
+          <!-- Replace these with your images -->
+          <a href="assets/memories/1.jpg" class="g-item"><img src="assets/memories/1.jpg" alt="Memory 1" /></a>
+          <a href="assets/memories/2.jpg" class="g-item"><img src="assets/memories/2.jpg" alt="Memory 2" /></a>
+          <a href="assets/memories/3.jpg" class="g-item"><img src="assets/memories/3.jpg" alt="Memory 3" /></a>
+          <a href="assets/memories/4.jpg" class="g-item"><img src="assets/memories/4.jpg" alt="Memory 4" /></a>
+          <a href="assets/memories/5.jpg" class="g-item"><img src="assets/memories/5.jpg" alt="Memory 5" /></a>
+          <a href="assets/memories/6.jpg" class="g-item"><img src="assets/memories/6.jpg" alt="Memory 6" /></a>
         </div>
       </section>
 
+      <!-- Contact -->
       <section class="footer-note">
         <h2 class="gold-underline">Contact</h2>
         <p>
@@ -145,41 +153,55 @@
   </div>
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
-    <span class="close" id="lbClose">✕</span>
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="close" id="lbClose" aria-label="Close">✕</button>
     <div class="nav">
-      <span class="btn" id="lbPrev">‹</span>
-      <span class="btn" id="lbNext">›</span>
+      <button class="btn" id="lbPrev" aria-label="Previous">‹</button>
+      <button class="btn" id="lbNext" aria-label="Next">›</button>
     </div>
-    <img id="lbImg" alt="Memory">
+    <img id="lbImg" alt="Memory" />
   </div>
 
   <script>
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Lightbox (open, close, prev/next, Esc, outside click)
     (function(){
-      const items = Array.from(document.querySelectorAll('.gallery-grid .g-item'));
-      if(!items.length) return;
       const lb = document.getElementById('lightbox');
       const lbImg = document.getElementById('lbImg');
       const btnPrev = document.getElementById('lbPrev');
       const btnNext = document.getElementById('lbNext');
       const btnClose = document.getElementById('lbClose');
+      const items = Array.from(document.querySelectorAll('.gallery-grid .g-item'));
+      if (!lb || !lbImg || !btnClose || items.length === 0) return;
+
       let idx = 0;
-      function open(i){ idx=i; lbImg.src=items[idx].getAttribute('href'); lb.classList.add('open'); }
-      function close(){ lb.classList.remove('open'); lbImg.src=''; }
-      function prev(){ idx=(idx-1+items.length)%items.length; lbImg.src=items[idx].getAttribute('href'); }
-      function next(){ idx=(idx+1)%items.length; lbImg.src=items[idx].getAttribute('href'); }
-      items.forEach((a,i)=>a.addEventListener('click',e=>{e.preventDefault(); open(i);} ));
+      function open(i){
+        idx = i;
+        lbImg.src = items[idx].getAttribute('href');
+        lb.classList.add('open');
+        lb.setAttribute('aria-hidden','false');
+        btnClose.focus();
+      }
+      function close(){
+        lb.classList.remove('open');
+        lb.setAttribute('aria-hidden','true');
+        lbImg.src = '';
+      }
+      function prev(){ idx = (idx - 1 + items.length) % items.length; lbImg.src = items[idx].getAttribute('href'); }
+      function next(){ idx = (idx + 1) % items.length; lbImg.src = items[idx].getAttribute('href'); }
+
+      items.forEach((a, i) => a.addEventListener('click', (e) => { e.preventDefault(); open(i); }));
       btnClose.addEventListener('click', close);
       btnPrev.addEventListener('click', prev);
       btnNext.addEventListener('click', next);
-      lb.addEventListener('click', e => { if(e.target===lb) close(); });
-      window.addEventListener('keydown', e => {
-        if(!lb.classList.contains('open')) return;
-        if(e.key==='Escape') close();
-        if(e.key==='ArrowLeft') prev();
-        if(e.key==='ArrowRight') next();
+      lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+      window.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowLeft') prev();
+        if (e.key === 'ArrowRight') next();
       });
     })();
   </script>
